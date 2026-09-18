@@ -1,4 +1,3 @@
-print("Olá, mundo!")
 
 produtos = []
 # FUNÇÃO PARA CADASTRAR PRODUTOS
