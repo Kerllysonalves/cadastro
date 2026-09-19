@@ -1,5 +1,7 @@
 
 produtos = []
+orcamento = []
+
 # FUNÇÃO PARA CADASTRAR PRODUTOS
 def cadastrar_produtos():
     print("---CADASTRO DE PRODUTOS---")
@@ -14,6 +16,7 @@ def cadastrar_produtos():
 
     produtos.append(produto)
     print("\nPRODUTO CADASTRADO COM SUCESSO!")
+
 # FUNÇÃO PARA LISTAR PRODUTOS
 def listar_produtos():
     print("\n---PRODUTOS CADASTRADOS---")
@@ -46,12 +49,80 @@ def alterar_preco():
             print("Preço alterado com sucesso!")
             return
 
+def adicionar_ao_orcamento():
+    while True:
+        print("\n---ADICIONAR AO ORÇAMENTO===")
+
+        nome_pesquisado = input("Digite o nome do produto: ")
+
+        produto_encontrado = False
+
+        for produto in produtos:
+
+            if produto["nome"].lower() == nome_pesquisado.lower():
+
+                produto_encontrado = True
+
+                print(f"Produto: {produto['nome']}")
+                print(f"Valor do kg: R$ {produto['preco_kg']:.2f}")
+
+                quantidade = float(input("Digite a quantidade: "))
+
+                total_item = quantidade * produto["preco_kg"]
+
+                item = {
+                    "nome": produto['nome'],
+                    "quantidade": quantidade,
+                    "preco_kg": produto['preco_kg'],
+                    "total": total_item
+                }
+
+                orcamento.append(item)
+
+                print("Produto adicionado ao orçamento!")
+
+                break
+
+        if produto_encontrado == False:
+            print("Produto não encontrado.")
+
+        continuar = input("\nAdicionar outro item? (s/n): ")
+
+        if continuar.lower() == "n":
+            break
+
+def mostrar_orcamento():
+    print("===orçamento===")
+    if len(orcamento) ==0:
+        print("Nenhum item foi adicionado.")
+        return
+
+    total_geral = 0
+
+    print(f"{'Produto':<20} {'Quantidade':>8} {'Valor/kg':>12} {'Total':>12}")
+
+    for item in orcamento:
+        print(
+            f"{item['nome']:<20} "
+            f"{item['quantidade']:>8.2f} "
+            f"R$ {item['preco_kg']:>9.2f} "
+            f"R$ {item['total']:9.2f} "
+        )
+
+        total_geral += item["total"]
+
+    print("_" * 55)
+
+    print(f"TOTAL GERAL: R$ {total_geral:.2f}" )
+
 while True:
     print("\n===AÇOUGUE===")
     print("1- Cadastrar produto")
     print("2- Listar produto")
     print("3- Alterar preço")
-    print("4- Sair")
+    print("4- Adicionar ao orçamento")
+    print("5- Mostrar orçamento")
+    print("6- Sair")
 
     opcao = input("Escolha uma opção: ")
 
@@ -65,9 +136,14 @@ while True:
         alterar_preco()
 
     elif opcao == "4":
+        adicionar_ao_orcamento()
+
+    elif opcao == "5":
+        mostrar_orcamento()
+
+    elif opcao == "6":
         print("Programa encerrado.")
         break
-    
     else:
         print("Opção inválida.")
     
